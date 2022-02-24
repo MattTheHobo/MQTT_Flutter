@@ -21,12 +21,6 @@ class _MQTTViewState extends State<MQTTView> {
   @override
   void initState() {
     super.initState();
-
-    /*
-    _hostTextController.addListener(_printLatestValue);
-    _messageTextController.addListener(_printLatestValue);
-    _topicTextController.addListener(_printLatestValue);
-     */
   }
 
   @override
@@ -37,14 +31,6 @@ class _MQTTViewState extends State<MQTTView> {
     super.dispose();
   }
 
-  /*
-  _printLatestValue() {
-    print("Second text field: ${_hostTextController.text}");
-    print("Second text field: ${_messageTextController.text}");
-    print("Second text field: ${_topicTextController.text}");
-  }
-   */
-
   @override
   Widget build(BuildContext context) {
     final MQTTAppState appState = Provider.of<MQTTAppState>(context);
@@ -54,9 +40,9 @@ class _MQTTViewState extends State<MQTTView> {
     return scaffold;
   }
 
-  Widget _buildAppBar(BuildContext context) {
+  Widget buildAppBar(BuildContext context) {
     return AppBar(
-      title: const Text('MQTT'),
+      title: Text('MQTT'),
       backgroundColor: Colors.greenAccent,
     );
   }
