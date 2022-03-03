@@ -77,7 +77,9 @@ class _MQTTViewState extends State<MQTTView> {
               _topicTextController,
               'Enter a topic to subscribe or listen',
               currentAppState.getAppConnectionState),
-          _buildTextFieldWith(_userTextController, 'Enter username', currentAppState.getAppConnectionState),
+              const SizedBox(height: 10),
+          _buildTextFieldWith(_userTextController, 'Enter username',
+              currentAppState.getAppConnectionState),
           const SizedBox(height: 10),
           _buildPublishMessageRow(),
           const SizedBox(height: 10),
@@ -115,11 +117,15 @@ class _MQTTViewState extends State<MQTTView> {
   Widget _buildTextFieldWith(TextEditingController controller, String hintText,
       MQTTAppConnectionState state) {
     bool shouldEnable = false;
-    if (controller == _messageTextController &&state == MQTTAppConnectionState.connected) {
+    if (controller == _messageTextController &&
+        state == MQTTAppConnectionState.connected) {
       shouldEnable = true;
-    } else if ((controller == _hostTextController && state == MQTTAppConnectionState.disconnected) || 
-    (controller == _topicTextController && state == MQTTAppConnectionState.disconnected) ||
-    (controller == _userTextController && state == MQTTAppConnectionState.disconnected)) {
+    } else if ((controller == _hostTextController &&
+            state == MQTTAppConnectionState.disconnected) ||
+        (controller == _topicTextController &&
+            state == MQTTAppConnectionState.disconnected) ||
+        (controller == _userTextController &&
+            state == MQTTAppConnectionState.disconnected)) {
       shouldEnable = true;
     }
     return TextField(
@@ -216,10 +222,15 @@ class _MQTTViewState extends State<MQTTView> {
   void _configureAndConnect() {
     // ignore: flutter_style_todos
     // TODO: Use UUID
-    String osPrefix = 'Flutter_iOS';
+    /*String osPrefix = 'Flutter_iOS';
     if (Platform.isAndroid) {
       osPrefix = 'Flutter_Android';
-    }
+    }*/
+    String osPrefix = 'Anonymous';
+
+    if (_userTextController.text != '') {
+      osPrefix = _userTextController.text;
+    } 
     manager = MQTTManager(
         host: _hostTextController.text,
         topic: _topicTextController.text,
@@ -234,11 +245,17 @@ class _MQTTViewState extends State<MQTTView> {
   }
 
   void _publishMessage(String text) {
-    String osPrefix = 'Flutter_iOS';
+    String osPrefix = 'Anonymous';
+
+    if (_userTextController.text != '') {
+      osPrefix = _userTextController.text;
+    } 
+
+    /*String osPrefix = 'Flutter_iOS';
     if (Platform.isAndroid) {
       osPrefix = 'Flutter_Android';
-    }
-    final String message = osPrefix + ' says: ' + text;
+    }*/
+    final String message = osPrefix + ': ' + text;
     manager.publish(message);
     _messageTextController.clear();
   }
