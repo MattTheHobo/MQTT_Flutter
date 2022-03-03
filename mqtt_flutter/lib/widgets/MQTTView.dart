@@ -36,16 +36,19 @@ class _MQTTViewState extends State<MQTTView> {
     final MQTTAppState appState = Provider.of<MQTTAppState>(context);
     // Keep a reference to the app state.
     currentAppState = appState;
-    final Scaffold scaffold = Scaffold(body: _buildColumn());
+    final Scaffold scaffold = Scaffold(
+      appBar: AppBar(
+        title: Text('MQTT')),
+      body: _buildColumn());
     return scaffold;
   }
 
-  Widget buildAppBar(BuildContext context) {
+  /*Widget buildAppBar(BuildContext context) {
     return AppBar(
       title: Text('MQTT'),
       backgroundColor: Colors.greenAccent,
     );
-  }
+  }*/
 
   Widget _buildColumn() {
     return Column(
@@ -97,7 +100,7 @@ class _MQTTViewState extends State<MQTTView> {
       children: <Widget>[
         Expanded(
           child: Container(
-              color: Colors.deepOrangeAccent,
+              color: Colors.amberAccent,
               child: Text(status, textAlign: TextAlign.center)),
         ),
       ],
@@ -131,7 +134,7 @@ class _MQTTViewState extends State<MQTTView> {
       padding: const EdgeInsets.all(20.0),
       child: Container(
         width: 400,
-        height: 200,
+        height: 300,
         child: SingleChildScrollView(
           child: Text(text),
         ),
