@@ -15,6 +15,7 @@ class _MQTTViewState extends State<MQTTView> {
   final TextEditingController _hostTextController = TextEditingController();
   final TextEditingController _messageTextController = TextEditingController();
   final TextEditingController _topicTextController = TextEditingController();
+  final TextEditingController _userTextController = TextEditingController();
   late MQTTAppState currentAppState;
   late MQTTManager manager;
 
@@ -28,6 +29,7 @@ class _MQTTViewState extends State<MQTTView> {
     _hostTextController.dispose();
     _messageTextController.dispose();
     _topicTextController.dispose();
+    _userTextController.dispose();
     super.dispose();
   }
 
@@ -36,10 +38,8 @@ class _MQTTViewState extends State<MQTTView> {
     final MQTTAppState appState = Provider.of<MQTTAppState>(context);
     // Keep a reference to the app state.
     currentAppState = appState;
-    final Scaffold scaffold = Scaffold(
-      appBar: AppBar(
-        title: Text('MQTT')),
-      body: _buildColumn());
+    final Scaffold scaffold =
+        Scaffold(appBar: AppBar(title: Text('MQTT')), body: _buildColumn());
     return scaffold;
   }
 
@@ -58,7 +58,8 @@ class _MQTTViewState extends State<MQTTView> {
         _buildEditableColumn(),
         Text(
           'Messages:',
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        ),
         _buildScrollableTextWith(currentAppState.getHistoryText)
       ],
     );
@@ -76,6 +77,7 @@ class _MQTTViewState extends State<MQTTView> {
               _topicTextController,
               'Enter a topic to subscribe or listen',
               currentAppState.getAppConnectionState),
+          _buildTextFieldWith(_userTextController, 'Enter username', currentAppState.getAppConnectionState),
           const SizedBox(height: 10),
           _buildPublishMessageRow(),
           const SizedBox(height: 10),
@@ -113,13 +115,11 @@ class _MQTTViewState extends State<MQTTView> {
   Widget _buildTextFieldWith(TextEditingController controller, String hintText,
       MQTTAppConnectionState state) {
     bool shouldEnable = false;
-    if (controller == _messageTextController &&
-        state == MQTTAppConnectionState.connected) {
+    if (controller == _messageTextController &&state == MQTTAppConnectionState.connected) {
       shouldEnable = true;
-    } else if ((controller == _hostTextController &&
-            state == MQTTAppConnectionState.disconnected) ||
-        (controller == _topicTextController &&
-            state == MQTTAppConnectionState.disconnected)) {
+    } else if ((controller == _hostTextController && state == MQTTAppConnectionState.disconnected) || 
+    (controller == _topicTextController && state == MQTTAppConnectionState.disconnected) ||
+    (controller == _userTextController && state == MQTTAppConnectionState.disconnected)) {
       shouldEnable = true;
     }
     return TextField(
@@ -143,8 +143,8 @@ class _MQTTViewState extends State<MQTTView> {
           reverse: true,
         ),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black54, width: 4),
-          borderRadius: BorderRadius.circular(5)),
+            border: Border.all(color: Colors.black54, width: 4),
+            borderRadius: BorderRadius.circular(5)),
       ),
     );
   }
@@ -157,14 +157,13 @@ class _MQTTViewState extends State<MQTTView> {
           child: ElevatedButton(
             child: const Text('Connect'),
             onPressed: state == MQTTAppConnectionState.disconnected
-                ? _configureAndConnect : null, 
+                ? _configureAndConnect
+                : null,
             style: ElevatedButton.styleFrom(
-              primary: Colors.lightBlue,
-              fixedSize: Size(20, 40),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25)
-              )
-            ),
+                primary: Colors.lightBlue,
+                fixedSize: Size(20, 40),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25))),
           ),
         ),
         const SizedBox(width: 10),
@@ -172,15 +171,13 @@ class _MQTTViewState extends State<MQTTView> {
           // ignore: deprecated_member_use
           child: ElevatedButton(
             child: const Text('Disconnect'),
-            onPressed: state == MQTTAppConnectionState.connected
-                ? _disconnect : null, 
+            onPressed:
+                state == MQTTAppConnectionState.connected ? _disconnect : null,
             style: ElevatedButton.styleFrom(
-              primary: Colors.redAccent,
-              fixedSize: Size(20, 40),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25)
-              )
-            ),
+                primary: Colors.redAccent,
+                fixedSize: Size(20, 40),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25))),
           ),
         ),
       ],
@@ -200,9 +197,7 @@ class _MQTTViewState extends State<MQTTView> {
           primary: Colors.green,
           fixedSize: Size(100, 30),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25)
-          )
-        ), //
+              borderRadius: BorderRadius.circular(25))), //
     );
   }
 
