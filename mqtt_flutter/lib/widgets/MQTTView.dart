@@ -56,6 +56,9 @@ class _MQTTViewState extends State<MQTTView> {
         _buildConnectionStateText(
             _prepareStateMessageFrom(currentAppState.getAppConnectionState)),
         _buildEditableColumn(),
+        Text(
+          'Messages:',
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
         _buildScrollableTextWith(currentAppState.getHistoryText)
       ],
     );
@@ -131,13 +134,17 @@ class _MQTTViewState extends State<MQTTView> {
 
   Widget _buildScrollableTextWith(String text) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(8.0),
       child: Container(
         width: 400,
         height: 300,
         child: SingleChildScrollView(
           child: Text(text),
+          reverse: true,
         ),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black54, width: 4),
+          borderRadius: BorderRadius.circular(5)),
       ),
     );
   }
@@ -147,23 +154,33 @@ class _MQTTViewState extends State<MQTTView> {
       children: <Widget>[
         Expanded(
           // ignore: deprecated_member_use
-          child: RaisedButton(
-            color: Colors.lightBlueAccent,
+          child: ElevatedButton(
             child: const Text('Connect'),
             onPressed: state == MQTTAppConnectionState.disconnected
-                ? _configureAndConnect
-                : null, //
+                ? _configureAndConnect : null, 
+            style: ElevatedButton.styleFrom(
+              primary: Colors.lightBlue,
+              fixedSize: Size(20, 40),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25)
+              )
+            ),
           ),
         ),
         const SizedBox(width: 10),
         Expanded(
           // ignore: deprecated_member_use
-          child: RaisedButton(
-            color: Colors.redAccent,
+          child: ElevatedButton(
             child: const Text('Disconnect'),
             onPressed: state == MQTTAppConnectionState.connected
-                ? _disconnect
-                : null, //
+                ? _disconnect : null, 
+            style: ElevatedButton.styleFrom(
+              primary: Colors.redAccent,
+              fixedSize: Size(20, 40),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25)
+              )
+            ),
           ),
         ),
       ],
@@ -172,14 +189,20 @@ class _MQTTViewState extends State<MQTTView> {
 
   Widget _buildSendButtonFrom(MQTTAppConnectionState state) {
     // ignore: deprecated_member_use
-    return RaisedButton(
-      color: Colors.green,
+    return ElevatedButton(
       child: const Text('Send'),
       onPressed: state == MQTTAppConnectionState.connected
           ? () {
               _publishMessage(_messageTextController.text);
             }
-          : null, //
+          : null,
+      style: ElevatedButton.styleFrom(
+          primary: Colors.green,
+          fixedSize: Size(100, 30),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25)
+          )
+        ), //
     );
   }
 
