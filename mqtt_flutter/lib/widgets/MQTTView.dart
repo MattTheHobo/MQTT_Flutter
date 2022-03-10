@@ -77,7 +77,7 @@ class _MQTTViewState extends State<MQTTView> {
               _topicTextController,
               'Enter a topic to subscribe or listen',
               currentAppState.getAppConnectionState),
-              const SizedBox(height: 10),
+          const SizedBox(height: 10),
           _buildTextFieldWith(_userTextController, 'Enter username',
               currentAppState.getAppConnectionState),
           const SizedBox(height: 10),
@@ -145,7 +145,10 @@ class _MQTTViewState extends State<MQTTView> {
         width: 400,
         height: 300,
         child: SingleChildScrollView(
-          child: Text(text),
+          child: Text(
+            text,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
           reverse: true,
         ),
         decoration: BoxDecoration(
@@ -166,7 +169,7 @@ class _MQTTViewState extends State<MQTTView> {
                 ? _configureAndConnect
                 : null,
             style: ElevatedButton.styleFrom(
-                primary: Colors.lightBlue,
+                primary: Color.fromARGB(255, 118, 62, 170),
                 fixedSize: Size(20, 40),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25))),
@@ -180,7 +183,7 @@ class _MQTTViewState extends State<MQTTView> {
             onPressed:
                 state == MQTTAppConnectionState.connected ? _disconnect : null,
             style: ElevatedButton.styleFrom(
-                primary: Colors.redAccent,
+                primary: Colors.red,
                 fixedSize: Size(20, 40),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25))),
@@ -193,14 +196,14 @@ class _MQTTViewState extends State<MQTTView> {
   Widget _buildSendButtonFrom(MQTTAppConnectionState state) {
     // ignore: deprecated_member_use
     return ElevatedButton(
-      child: const Text('Send'),
+      child: const Text('Send', style: TextStyle(color: Colors.black)),
       onPressed: state == MQTTAppConnectionState.connected
           ? () {
               _publishMessage(_messageTextController.text);
             }
           : null,
       style: ElevatedButton.styleFrom(
-          primary: Colors.green,
+          primary: Color.fromARGB(255, 243, 209, 14),
           fixedSize: Size(100, 30),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25))), //
@@ -230,7 +233,7 @@ class _MQTTViewState extends State<MQTTView> {
 
     if (_userTextController.text != '') {
       osPrefix = _userTextController.text;
-    } 
+    }
     manager = MQTTManager(
         host: _hostTextController.text,
         topic: _topicTextController.text,
@@ -249,7 +252,7 @@ class _MQTTViewState extends State<MQTTView> {
 
     if (_userTextController.text != '') {
       osPrefix = _userTextController.text;
-    } 
+    }
 
     /*String osPrefix = 'Flutter_iOS';
     if (Platform.isAndroid) {
