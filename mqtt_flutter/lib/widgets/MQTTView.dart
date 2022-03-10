@@ -108,7 +108,7 @@ class _MQTTViewState extends State<MQTTView> {
         Expanded(
           child: Container(
               color: Colors.amberAccent,
-              child: Text(status, textAlign: TextAlign.center)),
+              child: Text(status, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold),)),
         ),
       ],
     );
@@ -200,10 +200,10 @@ class _MQTTViewState extends State<MQTTView> {
         ),
         Expanded(
             child: ElevatedButton(
-          child: const Text("Reset"),
+          child: const Text("Reset", style: TextStyle(color: Colors.black),),
           onPressed: _resetButt,
           style: ElevatedButton.styleFrom(
-            primary: Colors.deepOrangeAccent,
+            primary: Colors.orangeAccent,
               fixedSize: Size(40, 40),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25))),
