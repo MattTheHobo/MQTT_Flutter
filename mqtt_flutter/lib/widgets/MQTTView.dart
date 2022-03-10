@@ -159,6 +159,12 @@ class _MQTTViewState extends State<MQTTView> {
   }
 
   Widget _buildConnecteButtonFrom(MQTTAppConnectionState state) {
+    void _resetButt() {
+      setState(() {
+        currentAppState.resetText();
+      });
+    }
+
     return Row(
       children: <Widget>[
         Expanded(
@@ -189,6 +195,19 @@ class _MQTTViewState extends State<MQTTView> {
                     borderRadius: BorderRadius.circular(25))),
           ),
         ),
+        const SizedBox(
+          width: 10,
+        ),
+        Expanded(
+            child: ElevatedButton(
+          child: const Text("Reset"),
+          onPressed: _resetButt,
+          style: ElevatedButton.styleFrom(
+            primary: Colors.deepOrangeAccent,
+              fixedSize: Size(40, 40),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25))),
+        )),
       ],
     );
   }
