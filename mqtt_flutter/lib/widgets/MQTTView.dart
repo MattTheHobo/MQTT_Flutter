@@ -43,24 +43,12 @@ class _MQTTViewState extends State<MQTTView> {
     return scaffold;
   }
 
-  /*Widget buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text('MQTT'),
-      backgroundColor: Colors.greenAccent,
-    );
-  }*/
-
   Widget _buildColumn() {
     return Column(
       children: <Widget>[
-        _buildConnectionStateText(
-            _prepareStateMessageFrom(currentAppState.getAppConnectionState)),
+        _buildConnectionStateText(_prepareStateMessageFrom(currentAppState.getAppConnectionState)),
+        _buildScrollableTextWith(currentAppState.getHistoryText),
         _buildEditableColumn(),
-        Text(
-          'Messages:',
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-        ),
-        _buildScrollableTextWith(currentAppState.getHistoryText)
       ],
     );
   }
@@ -70,6 +58,8 @@ class _MQTTViewState extends State<MQTTView> {
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: <Widget>[
+          _buildPublishMessageRow(),
+          const SizedBox(height: 10),
           _buildTextFieldWith(_hostTextController, 'Enter broker address',
               currentAppState.getAppConnectionState),
           const SizedBox(height: 10),
@@ -80,8 +70,6 @@ class _MQTTViewState extends State<MQTTView> {
           const SizedBox(height: 10),
           _buildTextFieldWith(_userTextController, 'Enter username',
               currentAppState.getAppConnectionState),
-          const SizedBox(height: 10),
-          _buildPublishMessageRow(),
           const SizedBox(height: 10),
           _buildConnecteButtonFrom(currentAppState.getAppConnectionState)
         ],
@@ -142,8 +130,8 @@ class _MQTTViewState extends State<MQTTView> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: 400,
-        height: 300,
+        width: MediaQuery.of(context).size.width * 1,
+        height: MediaQuery.of(context).size.height * 0.35,
         child: SingleChildScrollView(
           child: Text(
             text,
@@ -170,7 +158,7 @@ class _MQTTViewState extends State<MQTTView> {
         Expanded(
           // ignore: deprecated_member_use
           child: ElevatedButton(
-            child: const Text('Connect'),
+            child: const Text('Connect', style: TextStyle(fontSize: 12.8, fontWeight: FontWeight.bold),),
             onPressed: state == MQTTAppConnectionState.disconnected
                 ? _configureAndConnect
                 : null,
@@ -185,7 +173,7 @@ class _MQTTViewState extends State<MQTTView> {
         Expanded(
           // ignore: deprecated_member_use
           child: ElevatedButton(
-            child: const Text('Disconnect'),
+            child: const Text('Disconnect', style: TextStyle(fontSize: 12.8, fontWeight: FontWeight.bold),),
             onPressed:
                 state == MQTTAppConnectionState.connected ? _disconnect : null,
             style: ElevatedButton.styleFrom(
@@ -200,7 +188,7 @@ class _MQTTViewState extends State<MQTTView> {
         ),
         Expanded(
             child: ElevatedButton(
-          child: const Text("Reset", style: TextStyle(color: Colors.black),),
+          child: const Text("Reset", style: TextStyle(color: Colors.black, fontSize: 12.8, fontWeight: FontWeight.bold),),
           onPressed: _resetButt,
           style: ElevatedButton.styleFrom(
             primary: Colors.orangeAccent,
@@ -222,8 +210,8 @@ class _MQTTViewState extends State<MQTTView> {
             }
           : null,
       style: ElevatedButton.styleFrom(
-          primary: Color.fromARGB(255, 243, 209, 14),
-          fixedSize: Size(100, 30),
+          primary: Colors.amberAccent,
+          fixedSize: Size(100, 40),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25))), //
     );
